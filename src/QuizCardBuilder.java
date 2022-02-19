@@ -54,7 +54,7 @@ public class QuizCardBuilder {
         mainPanel.add(aLabel);
         mainPanel.add(aScroller);
         mainPanel.add(nextButton);
-        nextButton.addActionListener(new NextCardLixtener());
+        nextButton.addActionListener(new NextCardListener());
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem newMenuItem = new JMenuItem("New");
@@ -90,6 +90,17 @@ public class QuizCardBuilder {
         public void actionPerformed(ActionEvent ev) {
             cardList.clear();
             clearCard();
+        }
+    }
+
+    public class SaveMenuListener implements ActionListener {
+        public void actionPerformed(ActionEvent ev) {
+            QuizCard card = new QuizCard(question.getText(), answer.getText());
+            cardList.add(card);
+
+            JFileChooser fileSave = new JFileChooser();
+            fileSave.showSaveDialog(frame);
+            saveFile(fileSave.getSelectedFile());
         }
     }
 
