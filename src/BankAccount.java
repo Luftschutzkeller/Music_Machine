@@ -12,7 +12,7 @@ public class BankAccount {
 
 class RyanAndMonicaJob implements Runnable {
 
-    private BankAccount account = new BankAccount();
+    private final BankAccount account = new BankAccount();
 
     public static void main(String[] args) {
         RyanAndMonicaJob theJob = new RyanAndMonicaJob();
@@ -26,22 +26,22 @@ class RyanAndMonicaJob implements Runnable {
 
     public void run() {
         for (int x = 0; x < 10; x++) {
-            makeWithdrawal(10);
+            makeWithdrawal();
             if (account.getBalance() < 0) {
                 System.out.println("Превышение лимита");
             }
         }
     }
 
-    private void makeWithdrawal(int amount) {
-        if (account.getBalance() >= amount) {
+    private synchronized void makeWithdrawal() {
+        if (account.getBalance() >= 10) {
             System.out.println(Thread.currentThread().getName() + "собирается снять деньги");
             try {
                 System.out.println(Thread.currentThread().getName() + "идёт подремать");
                 Thread.sleep(500);
             } catch (InterruptedException ex) { ex.printStackTrace(); }
             System.out.println(Thread.currentThread().getName() + "просыпается");
-            account.withdraw(amount);
+            account.withdraw(10);
             System.out.println(Thread.currentThread().getName() + "заканчивает транзакцию");
         } else {
             System.out.println("Извините, для клиента" + Thread.currentThread().getName() + "недостаточно денег");
